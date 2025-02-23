@@ -798,10 +798,6 @@ elif page == "Module CSM":
             epsilon = 1e-6
             df_check["check"] = df_check["diff"].apply(lambda x: "OK" if abs(x) < epsilon else "KO")
 
-            st.write("""
-            **Contrôle** : diff = Juste valeur - (BE IFRS 17 + RA IFRS 17 + CSM + LC).
-            Une diff proche de 0 ⇒ OK, sinon KO.
-            """)
             style_dataframe(
                 df_check[[
                     "Portefeuille IFRS 17", "Type portefeuille",
