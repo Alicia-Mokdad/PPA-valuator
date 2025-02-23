@@ -969,6 +969,6 @@ elif page == "Sauvegarder":
               for k, v in loaded_data.items():
                    st.session_state[k] = v
               st.success("Session chargée avec succès!")
-              st.experimental_rerun()
+             
          except Exception as e:
               st.error("Erreur lors du chargement de la session : " + str(e))
