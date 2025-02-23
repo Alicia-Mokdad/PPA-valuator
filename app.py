@@ -116,9 +116,14 @@ def style_dataframe(df, use_container_width=True):
     les colonnes numériques pour insérer un espace comme séparateur des milliers.
     """
     df_reset = df.reset_index(drop=True)
-    format_dict = {col: (lambda x: format_number(x, 0) if pd.notnull(x) and float(x).is_integer() 
-                           else format_number(x, 2)) 
-                   for col in df_reset.select_dtypes(include=["number"]).columns}
+    format_dict = {
+        col: (
+            lambda x: format_number(x, 0)
+            if pd.notnull(x) and float(x).is_integer()
+            else format_number(x, 2)
+        )
+        for col in df_reset.select_dtypes(include=["number"]).columns
+    }
     return st.dataframe(df_reset.style.format(format_dict), use_container_width=use_container_width)
 
 # -----------------------------
@@ -501,10 +506,8 @@ elif page == "Module Goodwill":
                     if st.button("Supprimer", key=f"delete_{i}"):
                         st.session_state["adjustments"].pop(i)
                         st.session_state["dummy_key"] += 1
-                        try:
-                            st.experimental_rerun()
-                        except:
-                            st.stop()
+                        # Remplacement de st.experimental_rerun() par st.stop()
+                        st.stop()
         else:
             st.info("Aucun ajustement pour le moment.")
 
@@ -946,10 +949,10 @@ elif page == "Module CSM":
 # Page "Sauvegarder"
 # ------------------------------------------------------------------
 elif page == "Sauvegarder":
-    page_title_and_bar("Sauvegarder / Charger l'état de l'application")
+    page_title_and_bar("Sauvegarder / Charger l'état")
     st.markdown("""
-    Ici, vous pouvez sauvegarder l'état complet de l'application (toutes les variables de `st.session_state`)
-    en téléchargeant un fichier de sauvegarde, puis le recharger ultérieurement.
+    Ici, vous pouvez sauvegarder votre avancement
+    en téléchargeant un fichier de sauvegarde, puis en le rechargeant ultérieurement.
     """)
 
     # Bouton pour télécharger l'état de la session
@@ -969,6 +972,5 @@ elif page == "Sauvegarder":
               for k, v in loaded_data.items():
                    st.session_state[k] = v
               st.success("Session chargée avec succès!")
-             
          except Exception as e:
               st.error("Erreur lors du chargement de la session : " + str(e))
